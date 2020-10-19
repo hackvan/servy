@@ -10,14 +10,20 @@ defmodule Servy.Handler do
   end
 
   def parse(request) do
-    conv = %{ method: "GET", path: "/wildthings", resp_body: "" }
+    [method, path, _] = 
+      request
+      |> String.split("\n") 
+      |> List.first
+      |> String.split(" ")
+
+    %{ method: method, path: path, resp_body: "" }
   end
 
-  def route(request) do
-    conv = %{ method: "GET", path: "/wildthings", resp_body: "Bears, Lions, Tigers" }
+  def route(_request) do
+    _conv = %{ method: "GET", path: "/wildthings", resp_body: "Bears, Lions, Tigers" }
   end
 
-  def format_response(conv) do
+  def format_response(_conv) do
     """
     HTTP/1.1 200 OK
     Content-Type: text/html
