@@ -55,6 +55,7 @@ defmodule Servy.Handler do
     %{ conv | status: 404, resp_body: "No #{path} here!"}
   end
 
+  @doc "Apply the format for the response to the request"
   def format_response(%Conv{} = conv) do
     """
     HTTP/1.1 #{Conv.full_status(conv)}
