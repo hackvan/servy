@@ -39,15 +39,20 @@ defmodule Servy.Handler do
     %{ conv | status: 200, resp_body: "Bears #{id}"}
   end
 
-  def route(%Conv{ method: "DELETE", path: "/bears/" <> _id } = conv) do
-    %{ conv | status: 403, resp_body: "Deleting a bear is forbidden!"}
-  end
-
   def route(%Conv{ method: "GET", path: "/" <> file } = conv) do
     @pages_path
     |> Path.join("#{file}.html")
     |> File.read
     |> handle_file(conv)
+  end
+
+  def route(%Conv{ method: "POST", path: "/bears" } = conv) do
+    %{ conv | status: 201,
+              resp_body: "Create a #{conv.params["type"]} bear names #{conv.params["name"]}!" }
+  end
+
+  def route(%Conv{ method: "DELETE", path: "/bears/" <> _id } = conv) do
+    %{ conv | status: 403, resp_body: "Deleting a bear is forbidden!"}
   end
 
   # Catch all routes:
@@ -67,111 +72,125 @@ defmodule Servy.Handler do
   end
 end
 
+# request = """
+# GET /wildthings HTTP/1.1
+# Host: example.com
+# User-Agent: ExampleBrowser/1.0
+# Accept: */*
+
+# """
+
+# response = Servy.Handler.handler(request)
+# IO.puts response
+
+# request = """
+# GET /bears HTTP/1.1
+# Host: example.com
+# User-Agent: ExampleBrowser/1.0
+# Accept: */*
+
+# """
+
+# response = Servy.Handler.handler(request)
+# IO.puts response
+
+# request = """
+# GET /bigfoot HTTP/1.1
+# Host: example.com
+# User-Agent: ExampleBrowser/1.0
+# Accept: */*
+
+# """
+
+# response = Servy.Handler.handler(request)
+# IO.puts response
+
+# request = """
+# GET /bears/1 HTTP/1.1
+# Host: example.com
+# User-Agent: ExampleBrowser/1.0
+# Accept: */*
+
+# """
+
+# response = Servy.Handler.handler(request)
+# IO.puts response
+
+# request = """
+# DELETE /bears/1 HTTP/1.1
+# Host: example.com
+# User-Agent: ExampleBrowser/1.0
+# Accept: */*
+
+# """
+
+# response = Servy.Handler.handler(request)
+# IO.puts response
+
+# request = """
+# GET /wildlife HTTP/1.1
+# Host: example.com
+# User-Agent: ExampleBrowser/1.0
+# Accept: */*
+
+# """
+
+# response = Servy.Handler.handler(request)
+# IO.puts response
+
+# request = """
+# GET /bears?id=2 HTTP/1.1
+# Host: example.com
+# User-Agent: ExampleBrowser/1.0
+# Accept: */*
+
+# """
+
+# response = Servy.Handler.handler(request)
+# IO.puts response
+
+# request = """
+# GET /about HTTP/1.1
+# Host: example.com
+# User-Agent: ExampleBrowser/1.0
+# Accept: */*
+
+# """
+
+# response = Servy.Handler.handler(request)
+# IO.puts response
+
+# request = """
+# GET /bears/new HTTP/1.1
+# Host: example.com
+# User-Agent: ExampleBrowser/1.0
+# Accept: */*
+
+# """
+
+# response = Servy.Handler.handler(request)
+# IO.puts response
+
+# request = """
+# GET /contact HTTP/1.1
+# Host: example.com
+# User-Agent: ExampleBrowser/1.0
+# Accept: */*
+
+# """
+
+# response = Servy.Handler.handler(request)
+# IO.puts response
+
 request = """
-GET /wildthings HTTP/1.1
+POST /bears HTTP/1.1
 Host: example.com
 User-Agent: ExampleBrowser/1.0
 Accept: */*
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 21
 
-"""
-
-response = Servy.Handler.handler(request)
-IO.puts response
-
-request = """
-GET /bears HTTP/1.1
-Host: example.com
-User-Agent: ExampleBrowser/1.0
-Accept: */*
-
-"""
-
-response = Servy.Handler.handler(request)
-IO.puts response
-
-request = """
-GET /bigfoot HTTP/1.1
-Host: example.com
-User-Agent: ExampleBrowser/1.0
-Accept: */*
-
-"""
-
-response = Servy.Handler.handler(request)
-IO.puts response
-
-request = """
-GET /bears/1 HTTP/1.1
-Host: example.com
-User-Agent: ExampleBrowser/1.0
-Accept: */*
-
-"""
-
-response = Servy.Handler.handler(request)
-IO.puts response
-
-request = """
-DELETE /bears/1 HTTP/1.1
-Host: example.com
-User-Agent: ExampleBrowser/1.0
-Accept: */*
-
-"""
-
-response = Servy.Handler.handler(request)
-IO.puts response
-
-request = """
-GET /wildlife HTTP/1.1
-Host: example.com
-User-Agent: ExampleBrowser/1.0
-Accept: */*
-
-"""
-
-response = Servy.Handler.handler(request)
-IO.puts response
-
-request = """
-GET /bears?id=2 HTTP/1.1
-Host: example.com
-User-Agent: ExampleBrowser/1.0
-Accept: */*
-
-"""
-
-response = Servy.Handler.handler(request)
-IO.puts response
-
-request = """
-GET /about HTTP/1.1
-Host: example.com
-User-Agent: ExampleBrowser/1.0
-Accept: */*
-
-"""
-
-response = Servy.Handler.handler(request)
-IO.puts response
-
-request = """
-GET /bears/new HTTP/1.1
-Host: example.com
-User-Agent: ExampleBrowser/1.0
-Accept: */*
-
-"""
-
-response = Servy.Handler.handler(request)
-IO.puts response
-
-request = """
-GET /contact HTTP/1.1
-Host: example.com
-User-Agent: ExampleBrowser/1.0
-Accept: */*
-
+name=Baloo&type=Brown
 """
 
 response = Servy.Handler.handler(request)
