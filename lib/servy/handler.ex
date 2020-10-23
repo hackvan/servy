@@ -195,3 +195,17 @@ name=Baloo&type=Brown
 
 response = Servy.Handler.handler(request)
 IO.puts response
+
+request = """
+POST /bears HTTP/1.1
+Host: example.com
+User-Agent: ExampleBrowser/1.0
+Accept: */*
+Content-Type: application/json
+Content-Length: 21
+
+{"key": "value"}
+"""
+
+response = Servy.Handler.handler(request)
+IO.puts response
