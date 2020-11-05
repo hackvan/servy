@@ -39,17 +39,25 @@ defmodule Servy.Parser do
 
   @doc """
   Parser the given param string of the form `key1=value1&key2=value2`
+  or the JSON format `"{\"name\": \"Breezly\", \"type\": \"Polar\"}"`
   into a map with corresponding keys and values.
 
   ## Examples
       iex> params_string = "name=Baloo&type=Brown"
       iex> Servy.Parser.parse_params("application/x-www-form-urlencoded", params_string)
       %{"name" => "Baloo", "type" => "Brown"}
+      iex> params_json_string = ~s({"name": "Breezly", "type": "Polar"})
+      iex> Servy.Parser.parse_params("application/json", params_json_string)
+      %{"name" => "Breezly", "type" => "Polar"}
       iex> Servy.Parser.parse_params("multipart/form-data", params_string)
       %{}
   """
   def parse_params("application/x-www-form-urlencoded", params_string) do
     params_string |> String.trim |> URI.decode_query
+  end
+
+  def parse_params("application/json", params_string) do
+    Poison.Parser.parse!(params_string, %{})
   end
 
   def parse_params(_, _), do: %{}
