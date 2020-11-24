@@ -58,7 +58,7 @@ defmodule Servy.PledgeServer do
     GenericServer.cast @name, :clear
   end
 
-  # Server functions:
+  # Server callbacks:
   def handle_call(:total_pledged, state) do
     total = Enum.map(state, &elem(&1, 1)) |> Enum.sum
     { total, state }
