@@ -3,7 +3,9 @@ defmodule PledgeServerTest do
   alias Servy.PledgeServer
 
   test "caches the 3 most recent pledges and totals their amounts" do
-    PledgeServer.start()
+    { :ok, _pid } = PledgeServer.start()
+
+    PledgeServer.set_cache_size(3)
 
     PledgeServer.create_pledge("larry", 10)
     PledgeServer.create_pledge("moe",   20)
