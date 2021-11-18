@@ -1,7 +1,7 @@
 defmodule Servy.KickStarter do
   use GenServer
 
-  # Commands:
+  # Commands about process:
   # server_pid = Process.whereis(:http_server)
   # Process.exit(server_pid, :kaboom)
   # Process.alive?(server_pid)
