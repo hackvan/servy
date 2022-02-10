@@ -7,9 +7,9 @@ defmodule Servy.KickStarter do
   # Process.alive?(server_pid)
   # Process.info(server_pid, :links)
 
-  def start do
+  def start_link(_arg) do
     IO.puts "Starting the kickstarter..."
-    GenServer.start(__MODULE__, :ok, name: __MODULE__)
+    GenServer.start_link(__MODULE__, :ok, name: __MODULE__)
   end
 
   def get_server do
