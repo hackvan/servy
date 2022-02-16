@@ -16,8 +16,7 @@ defmodule Servy.MixProject do
   def application do
     [
       extra_applications: [:logger, :eex],
-      mod: {Servy, []},
-      env: [port: 3000]
+      mod: {Servy, []}
     ]
   end
 
